@@ -24,7 +24,7 @@ b=[10,12,23,55]
 df_b["カラム名"]=pd.Series(b,index="index名") #indexが同じである必要です。
 #行データの取得
 df_b.loc[index名]
-df_b.iloc[index番号]　#位置を表す整数でアクセスできる
+df_b.iloc[index番号]　#位置を表す整数でアクセスできる、ilocは抽出する行、列を番号で指定
 #行データの更新
 df_d=pd.Series([13,12],index=["index名","index名"])
 df_b.loc["index名"]=df_d
@@ -34,7 +34,7 @@ dh_b.at["index名","カラム名""]
 
 #　・CSVファイルなどのファイルに対しての入出力、SQLへのアクセス、実行できるがリレーションデータベースの理解が必要（まだあんまり分かってない）
 df_c=pd.read.csv("ファイルパス",index_col="index名")　#入力、index_colはindexを指定するもの
-df_c=pd.to_csv("ファイル名") #出力
+df_c=pd.to_csv("ファイル名") #出力 行番号、列名を削除して出力したいときは、index=None,header=Noneをつける
 
 # ・読み込んだCSVファイルやDateFrameのデータを表示させる
 df_c.head() #上から表示
@@ -46,6 +46,8 @@ df_c[5:10][["カラム名","カラム名"]] #5~10番目の指定カラムに該�
 df_c[df_c["カラム名"]=="データ名"]　#カラム名がデータ名に該当するもの抽出
 df_c[df_c["カラム名"] >= 100]     #カラム名が100より大きいものを抽出
 df_c[(df_c["カラム名"]=="データ名") & (df_c[] >= 100)]　#andは"&"、orは"|"
+df_c.query("カラム名=='カラム内の要素名'& カラム名=='カラム内の要素名'")#こんな感じで抽出もできる、『"』の使い方に気を付けること!!
+
 
 #　・並び変え
 df_c.sort_values("カラム名",ascending=False) #カラム名でソート、Falseで大きい順
@@ -88,3 +90,39 @@ pd.merge(df_p,df_q, on=["カラム名","カラム名"],how="inner")
 
 #concatによる結合、これはデータを縦に繋げる
 pd.concat([df_p,df_q]) #リストを忘れないでね。
+
+
+#コピーを作る
+"""
+df_copy = dfはdf_copyはdfを参照している、df側の値を変えると、df_copy側の値も変わる
+df_copy = df.copy()は、df側に変更があっても、df.copy()には反映されない^^
+"""
+
+#列のカラム名を参照する
+print(df_a.dtypes)
+print(df_a["カラム名"].dtypes)#これは指定したカラム名の型が表示される
+
+#行数を表示
+len(df_a)
+
+#行の中の欠損値の有無を確認
+print(df_a.info())
+
+#カラムの列に含まれる要素の種類を列挙
+print(df_a["sex"].unique())#この場合(カラム名を性別にしているので)["男","女"]などと出力される
+
+#列のカラム名をリストで表示
+df_a.columns.tolist()
+
+df.columns.values#これはndarray型で表示
+
+#行のインデックス名を表示
+df_a.index.tolist()
+df_a.index.values#上記同様
+
+#複数のカラム名を指定して表示
+df_a[["name","age"]]#名前と年齢にカラム名を絞って表示する
+
+#例代29番、後でちゃんと調べること！
+
+
