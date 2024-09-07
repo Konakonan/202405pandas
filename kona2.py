@@ -70,9 +70,11 @@ df_c.drop_duplicates(subset="カラム名")#カラムで重複を制御
 df_c.drop_duplicates(subset=["カラム名","カラム名"])
 
 #欠損値の処理
-df_c.dropna(subset="カラム名") #nullがあるを消す
+df_c.dropna(subset="カラム名") #nullがある場所全てを消す
 df_c.fillna("文字列など")　#欠損値(null)に文字列など入れる
 df_c.fillna({"カラム名":"文字列など","カラム": df_c.mean()["カラム名"]})　#こんな表現も
+
+df_a.isnull().sum()#null値の数をカラム別に合計して調べる
 
 
 # ・データ結合
@@ -151,6 +153,29 @@ df.drop("index名",axis=0)#指定indexの行を削除、行を削除する場合
 df_a.columns=["カラム名","カラム名","カラム名"]
 df.rename(columns={"元カラム名":"変更したいカラム名","元カラム名2":"変更したいカラム名2"})#このように変更することもできる？
 
-"""
-44番で休憩します
-"""
+#行(index)名を変更する
+df_a=df_a.rename(index={1:10})#index(1)がindex(10)に変更している
+
+#列の値をまとめて変更する
+df['sex'][df['sex'] == 'male'] = 0 #ここではカラム名（性別）=maleを0に変更している
+df['sex'] = df['sex'].replace({'male': 0, 'female': 1}) #replace関数を利用しても同様の結果
+
+#列の値を結合する
+df["カラム名"]=df["カラム名1"].str.cat(df["カラム名2"],sep="_")　
+df['test'] = df['cabin'] + '_' + df['embarked']#上と同様結果
+
+df["カラム名"]=df["カラム名"].astype(型).str.cat(df["カラム名2"],sep="_")#型がちゃう場合はastype()を利用
+
+#データをランダムに抽出する
+df.sampel(frac=1) #(ftac=1)で行をランダムに抽出
+df.sample(frac=1).reset_index() #reset_index()でindexを振りなおす
+
+
+#大文字、小文字に変換
+df_a["カラム名"].str.upper()#大文字
+df_a["カラム名"].lower()#小文字
+
+
+#データフレームの行と列を入れ替える
+df_a=df_a.transpose()
+df_a.T
