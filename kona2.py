@@ -92,6 +92,7 @@ pd.merge(df_p,df_q, on=["カラム名","カラム名"],how="inner")
 
 #concatによる結合、これはデータを縦に繋げる
 pd.concat([df_p,df_q]) #リストを忘れないでね。
+pd.concat([df_1,df_2],axis=1)#axis=1を指定することで横に繋げることができる
 
 
 #コピーを作る
@@ -103,7 +104,7 @@ df_copy = df.copy()は、df側に変更があっても、df.copy()には反映�
 #列のカラム名を参照する
 print(df_a.dtypes)#型を確認する
 print(df_a["カラム名"].dtypes)#これは指定したカラム名の型が表示される
-print(types(df_a))#これはデータフレームかシリーズかを確認できる
+print(type(df_a))#これはデータフレームかシリーズかを確認できる
 
 #行数を表示
 len(df_a)
@@ -131,10 +132,6 @@ df_a[["name","age"]]#名前と年齢にカラム名を絞って表示する
 
 
 
-#例代29、39番、後でちゃんと調べること！！！！！
-
-
-
 
 #df_aの中で文字列(object型)の列のみを表示させる
 df_a.select_dtypes(inclue="object")#数値型の列を表示させたければ(exclude="object")とする?
@@ -153,6 +150,7 @@ df.drop("index名",axis=0)#指定indexの行を削除、行を削除する場合
 #カラム名を一括変更（要素の内容は変わらない？）
 df_a.columns=["カラム名","カラム名","カラム名"]
 df.rename(columns={"元カラム名":"変更したいカラム名","元カラム名2":"変更したいカラム名2"})#このように変更することもできる？
+df_a.rename("変更後の名称") #シリーズの場合はこのように変更できる？
 
 #行(index)名を変更する
 df_a=df_a.rename(index={1:10})#index(1)がindex(10)に変更している
@@ -186,3 +184,21 @@ df_a.T
 staetswith("検索文字列")
 endswith("検索文字列")
 contains()#検索文字が含まれるかどうか
+
+#時系列データの扱い
+shift()
+-------
+pd.to_datetime(df_aa)#datedimeに変換
+pd.to_datetime(df_aa,unit="sなど")
+"""pandasでのunit='s'は、timestampやdatetimeのデータを秒単位で扱うことを指定するオプションです。例えば、Unixエポック（1970年1月1日 00:00:00 UTC）からの経過時間を秒単位で表す数値を、pandas.to_datetime()関数で日付形式に変換する際に使用されます。"""
+
+
+pd.to_datetime().dt.day#dayのみ取り出し
+pd.to_datetime()dt.strftime("%mなどのフォーマットを選択")#自動的に0埋めなどを行ってくれる
+
+#ピポットテーブルの作成
+pd.picot_table(テーブル名,index="",columns="",values-"",aggfunc=sumなど)
+
+
+#
+stack()
