@@ -101,8 +101,9 @@ df_copy = df.copy()は、df側に変更があっても、df.copy()には反映�
 """
 
 #列のカラム名を参照する
-print(df_a.dtypes)
+print(df_a.dtypes)#型を確認する
 print(df_a["カラム名"].dtypes)#これは指定したカラム名の型が表示される
+print(types(df_a))#これはデータフレームかシリーズかを確認できる
 
 #行数を表示
 len(df_a)
@@ -179,3 +180,9 @@ df_a["カラム名"].lower()#小文字
 #データフレームの行と列を入れ替える
 df_a=df_a.transpose()
 df_a.T
+
+
+#検索
+staetswith("検索文字列")
+endswith("検索文字列")
+contains()#検索文字が含まれるかどうか
