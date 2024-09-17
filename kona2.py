@@ -147,6 +147,8 @@ df["age"].astype(str)#多分かたをobjectに変換しています^^
 df.drop("カラム名",axis=1)#指定カラムの列を削除、列を削除する場合はaxis=1を記述
 df.drop("index名",axis=0)#指定indexの行を削除、行を削除する場合はaxis=0を記述
 
+del df_a["カラム名"]　#これでも一応消える
+
 #カラム名を一括変更（要素の内容は変わらない？）
 df_a.columns=["カラム名","カラム名","カラム名"]
 df.rename(columns={"元カラム名":"変更したいカラム名","元カラム名2":"変更したいカラム名2"})#このように変更することもできる？
@@ -154,6 +156,8 @@ df_a.rename("変更後の名称") #シリーズの場合はこのように変更
 
 #行(index)名を変更する
 df_a=df_a.rename(index={1:10})#index(1)がindex(10)に変更している
+
+df_a.reindex(index=["","",""],method="ffill")#imdex名を変更する、methodにffillを指定することで、欠損値が前方と同じになる。
 
 #列の値をまとめて変更する
 df['sex'][df['sex'] == 'male'] = 0 #ここではカラム名（性別）=maleを0に変更している
@@ -172,7 +176,7 @@ df.sample(frac=1).reset_index() #reset_index()でindexを振りなおす
 
 #大文字、小文字に変換
 df_a["カラム名"].str.upper()#大文字
-df_a["カラム名"].lower()#小文字
+df_a["カラム名"].str.lower()#小文字
 
 
 #データフレームの行と列を入れ替える
@@ -202,3 +206,24 @@ pd.picot_table(テーブル名,index="",columns="",values-"",aggfunc=sumなど)
 
 #
 stack()
+
+
+#文字の選択？抽出みないなの
+df_aa["カラム名"].str[0:3]#0~3文字目を抽出
+
+
+#ダミー変数
+dummie=pd.get_dummies(df_a,prefix='category',columns=['カラム名'])
+""""
+prefixで生成されるカラム名を編集できる。columns=で指定したカラムに対してダミーを作れます
+""""
+
+#データフレームからarrayリスト型へ
+df_a.to_numpy()
+
+
+#apply()とagg()
+df_a.apply(def,axis=0)#列に対してdefの処理を行う
+df_a["カラム名"].map(def)#カラム名を指定するなら上記と同じことなのでは
+
+df_a.groupby("").agg({"":sum,})#aggは集約したものに対して処理を行う？
